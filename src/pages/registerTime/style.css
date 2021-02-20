@@ -1,0 +1,29 @@
+#register-time{
+    margin-top: 5%;
+}
+
+fieldset{
+    padding: 3%;
+    padding-top: 5%;
+    border: 1px solid #666;
+    border-radius: 8px;
+    box-shadow: 0 0 10px #666;
+}
+
+legend {
+    padding: 2px 4px;
+    background: #fff;
+}
+
+fieldset > legend {
+    float: left;
+    margin-top: -8%;
+}
+
+fieldset > legend + * {
+    clear: both;
+}
+
+#cancel{
+    margin-right: 2%;
+}
