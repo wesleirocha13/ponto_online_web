@@ -1,23 +1,46 @@
 import './style.css';
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
+import api from '../../services/api';
 
 function RegisterTime() {
 
+  const history = useHistory();
   const [entry, setEntry] = useState('');
   const [exit, setExit] = useState('');
   const [dateEntry, setDateEntry] = useState('');
   const [dateExit, setDateExit] = useState('');
   const [visibleAlert, setVisibleAlert] = useState(false);
+  const [messageError, setMessageError] = useState('');
 
   function handleSubmit(){
     var filter = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
     if(!filter.test(entry) || !filter.test(exit)){
+      setMessageError('Insira o horário de entrada e de saída no formato "HH:MM".');
       setVisibleAlert(true);
       setEntry('');
       setExit('');
+      setDateEntry('');
+      setDateExit('');
+    }else{
+      api.post('schedules/', {
+        dateEntry: dateEntry.replace(/-/g, ""),
+        entry,
+        dateExit: dateExit.replace(/-/g, ""),
+        exit,
+        dateEntryAux: dateEntry,
+        dateExitAux: dateExit,
+      }).then(() =>{
+        history.push('/lancamentos', )
+      }).catch((e) =>{
+        setMessageError(e.response.data.message);
+        setVisibleAlert(true);
+        setEntry('');
+        setExit('');
+        setDateEntry('');
+        setDateExit('');
+      })
     }
-    alert(dateEntry);
   }
 
   function handleCloseAlert(){
@@ -34,7 +57,7 @@ function RegisterTime() {
               <div class="card-content white-text">
                 <a onClick={handleCloseAlert} class="btn-small transparent right white-text"><i class="Tiny material-icons">close</i></a>
                 <span class="card-title">Erro</span>
-                <p>Insira o horário de entrada e de saída no formato "HH:MM".</p>
+                <p>{messageError}</p>
               </div>
             </div>
           </div>
