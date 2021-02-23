@@ -31,6 +31,7 @@ function RegisterTime() {
         dateEntryAux: dateEntry,
         dateExitAux: dateExit,
       }).then(() =>{
+        alert("Horários cadastrados com sucesso!")
         history.push('/lancamentos', )
       }).catch((e) =>{
         setMessageError(e.response.data.message);
